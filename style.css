@@ -52,34 +52,27 @@ footer {
     width: 100%;
 }
 
-#chatbot {
-    width: 300px;
-    margin: auto;
-    border: 1px solid #ddd;
+#chat-container {
+    width: 300px; /* Adjust width as needed */
+    margin: auto; /* Center the chatbox */
     padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: relative;
 }
 
-.chatbox {
-    height: 200px;
-    overflow-y: auto;
+#chatbox {
+    height: 300px; /* Adjust height as needed */
+    overflow-y: auto; /* Enable scroll for overflow */
     border: 1px solid #ccc;
     margin-bottom: 10px;
     padding: 5px;
 }
 
-.user-input {
-    width: calc(100% - 60px);
+#userInput {
+    width: calc(100% - 20px); /* Full width of the container minus padding */
     padding: 5px;
 }
 
-.send-button {
-    width: 50px;
-    height: 32px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-}
 
