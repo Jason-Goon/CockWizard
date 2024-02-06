@@ -1,0 +1,54 @@
+/* Reset some basic elements */
+body, h1, h2, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: white;
+    background-color: #3C0753; /* Dark purple background */
+}
+
+header {
+    background-color: #720455; /* Deeper purple */
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header h1 {
+    color: #910A67; /* Vibrant purple */
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #720455; /* Deeper purple */
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
