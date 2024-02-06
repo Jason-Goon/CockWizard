@@ -4,7 +4,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
 
     if (userInput) {
         addToChatbox('You: ' + userInput);
-        fetch('https://api.cockwizard.com/', { // Replace with your Cloudflare Worker URL
+        fetch('https://hello-world-shrill-night-d9f1.gentoogoon.workers.dev/', { // Replace with your Cloudflare Worker URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
