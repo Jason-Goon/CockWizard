@@ -12,17 +12,17 @@ document.getElementById('sendButton').addEventListener('click', function() {
             },
             body: JSON.stringify({ messages: [{ role: "user", content: userInput }] })
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Received data:', data); // Log the received data
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(({ status, body }) => {
+            console.log('Response status:', status); // Log the response status
+            console.log('Response body:', body); // Log the response body
 
-            if(data.choices && data.choices.length > 0 && data.choices[0].message) {
-                const aiResponse = data.choices[0].message.content;
+            if (status !== 200) {
+                throw new Error(`HTTP error! Status: ${status}`);
+            }
+
+            if(body.choices && body.choices.length > 0 && body.choices[0].message) {
+                const aiResponse = body.choices[0].message.content;
                 addToChatbox('AI: ' + aiResponse);
             } else {
                 addToChatbox('No response from AI');
