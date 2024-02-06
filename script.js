@@ -4,7 +4,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
 
     if (userInput.trim()) {
         addToChatbox('You: ' + userInput);
-        fetch('https://hello-world-shrill-night-d9f1.gentoogoon.workers.dev/', { // Your Cloudflare Worker URL
+        fetch('https://hello-world-shrill-night-d9f1.gentoogoon.workers.dev/', { // Replace with your Cloudflare Worker URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -19,8 +19,14 @@ document.getElementById('sendButton').addEventListener('click', function() {
             return response.json();
         })
         .then(data => {
-            const aiResponse = data.choices[0].message.content;
-            addToChatbox('AI: ' + aiResponse);
+            console.log('Received data:', data); // Log the received data
+
+            if(data.choices && data.choices.length > 0 && data.choices[0].message) {
+                const aiResponse = data.choices[0].message.content;
+                addToChatbox('AI: ' + aiResponse);
+            } else {
+                addToChatbox('No response from AI');
+            }
         })
         .catch(error => {
             console.error('Error:', error);
