@@ -16,8 +16,8 @@ document.getElementById('sendButton').addEventListener('click', function() {
 .then(data => {
     console.log('Direct Response Data:', data); // Directly log the data
 
-    if (data.choices && data.choices.length > 0) {
-        const aiResponse = data.choices[0].text; // Adjust based on the actual structure
+    if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+        const aiResponse = data.choices[0].message.content; // Accessing message.content
         addToChatbox('AI: ' + aiResponse);
     } else {
         addToChatbox('Unexpected response format');
