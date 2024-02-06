@@ -12,24 +12,21 @@ document.getElementById('sendButton').addEventListener('click', function() {
             },
             body: JSON.stringify({ messages: [{ role: "user", content: userInput }] })
         })
-        .then(response => response.json().then(data => ({ status: response.status, body: data })))
-        .then(({ status, body }) => {
-            console.log('Response status:', status); // Log the response status
-            console.log('Response body:', body); // Log the response body
-
-            if (status !== 200) {
-                throw new Error(`HTTP error! Status: ${status}`);
-            }
-
-            if(body.choices && body.choices.length > 0 && body.choices[0].message) {
-                const aiResponse = body.choices[0].message.content;
+        .then(response => {
+            console.log('HTTP Response:', response); // Log the raw HTTP response
+            return response.json();
+        })
+        .then(data => {
+            console.log('Parsed Response Data:', data); // Log the parsed response data
+            if (data.choices && data.choices.length > 0) {
+                const aiResponse = data.choices[0].text; // Adjust based on the actual structure
                 addToChatbox('AI: ' + aiResponse);
             } else {
-                addToChatbox('No response from AI');
+                addToChatbox('No valid response from AI or unexpected format');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Fetch Error:', error);
             addToChatbox('Error: Could not fetch response');
         });
     }
@@ -42,3 +39,4 @@ function addToChatbox(message) {
     chatbox.appendChild(messageDiv);
     chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll to the latest message
 }
+
