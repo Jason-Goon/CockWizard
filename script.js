@@ -4,7 +4,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
 
     if (userInput.trim()) {
         addToChatbox('You: ' + userInput);
-        fetch('https://hello-world-shrill-night-d9f1.gentoogoon.workers.dev/', { // Your Cloudflare Worker URL
+        fetch('https://hello-world-shrill-night-d9f1.gentoogoon.workers.dev/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -12,21 +12,27 @@ document.getElementById('sendButton').addEventListener('click', function() {
             },
             body: JSON.stringify({ messages: [{ role: "user", content: userInput }] })
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Received data:', data); // Log the received data
-
-            // Correctly accessing the message content
-            if(data.choices && data.choices.length > 0 && data.choices[0].message) {
-                const aiResponse = data.choices[0].message.content;
-                addToChatbox('AI: ' + aiResponse);
-            } else {
-                addToChatbox('Unexpected response format or no response');
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Received data:', data); // Log the entire data object
+
+            if (!data.choices || !data.choices.length || !data.choices[0].message) {
+                console.error('Unexpected response format:', data);
+                addToChatbox('Unexpected response format or no response data');
+                return;
+            }
+
+            const aiResponse = data.choices[0].message.content;
+            addToChatbox('AI: ' + aiResponse);
         })
         .catch(error => {
             console.error('Error:', error);
-            addToChatbox('Error: Could not fetch response');
+            addToChatbox('Error: ' + error.message);
         });
     }
 });
@@ -36,5 +42,5 @@ function addToChatbox(message) {
     const messageDiv = document.createElement('div');
     messageDiv.textContent = message;
     chatbox.appendChild(messageDiv);
-    chatbox.scrollTop = chatbox.scrollHeight; // Auto-scroll to the latest message
+    chatbox.scrollTop = chatbox.scrollHeight;
 }
