@@ -1,39 +1,26 @@
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request));
+document.getElementById('sendButton').addEventListener('click', function() {
+    const userInput = document.getElementById('userInput').value;
+    document.getElementById('userInput').value = ''; // Clear input box
+
+    if (userInput) {
+        addToChatbox('You: ' + userInput);
+        fetch('https://your-cloudflare-worker-url', { // Replace with your Cloudflare Worker URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => {
+            addToChatbox('Bot: ' + data.choices[0].text); // Customize based on the response format
+        })
+        .catch(error => console.error('Error:', error));
+    }
 });
 
-async function handleRequest(request) {
-  if (request.method === 'POST') {
-    // Parse the request to get the user's message
-    const requestData = await request.json();
-    const userMessage = requestData.message;
-
-    // URL for the OpenAI GPT API
-    const openaiUrl = 'https://api.openai.com/v1/engines/gpt-3.5-turbo/completions';
-
-    // Prepare the request for the OpenAI API
-    const openaiRequest = new Request(openaiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}` // Your OpenAI API key
-      },
-      body: JSON.stringify({
-        prompt: userMessage,
-        max_tokens: 150
-      })
-    });
-
-    // Forward the request to the OpenAI API and get the response
-    const openaiResponse = await fetch(openaiRequest);
-    const openaiData = await openaiResponse.json();
-
-    // Return the OpenAI response to the frontend
-    return new Response(JSON.stringify(openaiData), {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } else {
-    // Handle non-POST requests
-    return new Response('This service only supports POST requests.', { status: 405 });
-  }
+function addToChatbox(message) {
+    const chatbox = document.getElementById('chatbox');
+    chatbox.innerHTML += `<div>${message}</div>`;
+    chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
 }
