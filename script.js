@@ -13,18 +13,27 @@ document.getElementById('sendButton').addEventListener('click', function() {
             body: JSON.stringify({ messages: [{ role: "user", content: userInput }] })
         })
         .then(response => {
-            console.log('HTTP Response:', response); // Log the raw HTTP response
-            return response.json();
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text(); // First get the raw text of the response
+        })
+        .then(text => {
+            console.log('Response Text:', text); // Log the raw text
+            try {
+                return JSON.parse(text); // Attempt to parse the text as JSON
+            } catch (e) {
+                throw new Error('Failed to parse response as JSON');
+            }
         })
         .then(data => {
-            console.log('Parsed Response Data:', data); // Log the parsed response data
-            if (!data.choices) {
-                throw new Error('Data does not contain choices');
+            // Handle the data as before
+            if (data.choices && data.choices.length > 0) {
+                const aiResponse = data.choices[0].message.content;
+                addToChatbox('AI: ' + aiResponse);
+            } else {
+                addToChatbox('Unexpected response format or no response');
             }
-            return data.choices[0].message.content;
-        })
-        .then(aiResponse => {
-            addToChatbox('AI: ' + aiResponse);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -35,8 +44,4 @@ document.getElementById('sendButton').addEventListener('click', function() {
 
 function addToChatbox(message) {
     const chatbox = document.getElementById('chatbox');
-    const messageDiv = document.createElement('div');
-    messageDiv.textContent = message;
-    chatbox.appendChild(messageDiv);
-    chatbox.scrollTop = chatbox.scrollHeight;
-}
+    const messageDiv
