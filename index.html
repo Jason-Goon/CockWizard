@@ -75,7 +75,7 @@
             }
         });
 
-       async function sendMessageToBackend(message) {
+      async function sendMessageToBackend(message) {
     try {
         const response = await fetch('https://api.cockwizard.com/', {
             method: 'POST',
@@ -90,11 +90,11 @@
         }
 
         const responseData = await response.json();
-        console.log(responseData); // Log the response data
 
+        // Displaying messages
         displayMessage(`You: ${message}`);
-        if (responseData.choices && responseData.choices.length > 0) {
-            displayMessage(`Bot: ${responseData.choices[0].text}`);
+        if (responseData.choices && responseData.choices.length > 0 && responseData.choices[0].message) {
+            displayMessage(`Bot: ${responseData.choices[0].message.content}`);
         } else {
             displayMessage('Error: Unexpected response format');
         }
@@ -103,6 +103,7 @@
         displayMessage('Error: Could not connect to the chatbot');
     }
 }
+
 
 
         function displayMessage(message) {
