@@ -91,6 +91,7 @@
 
         const responseData = await response.json();
         displayMessage(`You: ${message}`);
+        console.log(responseData);
         
         if (responseData && responseData.choices && responseData.choices.length > 0) {
             displayMessage(`Bot: ${responseData.choices[0].message.content}`);
