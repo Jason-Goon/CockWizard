@@ -13,21 +13,17 @@ document.getElementById('sendButton').addEventListener('click', function() {
             body: JSON.stringify({ messages: [{ role: "user", content: userInput }] })
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            console.log('HTTP Response:', response); // Log the raw HTTP response
             return response.json();
         })
         .then(data => {
-            console.log('Received data:', data); // Log the entire data object
-
-            if (!data.choices || !data.choices.length || !data.choices[0].message) {
-                console.error('Unexpected response format:', data);
-                addToChatbox('Unexpected response format or no response data');
-                return;
+            console.log('Parsed Response Data:', data); // Log the parsed response data
+            if (!data.choices) {
+                throw new Error('Data does not contain choices');
             }
-
-            const aiResponse = data.choices[0].message.content;
+            return data.choices[0].message.content;
+        })
+        .then(aiResponse => {
             addToChatbox('AI: ' + aiResponse);
         })
         .catch(error => {
