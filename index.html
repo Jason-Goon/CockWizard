@@ -10,34 +10,45 @@
             background-color: #E36414; 
             color: #1B4242;
         }
-        #chatbox {
-            width: 600px;
-            height: 600px;
-            border: 2px solid #9A031E;
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #5F0F40;
-            overflow-y: auto;
-        }
-          button {
-            background-color: #9A031E; 
-            color: white; 
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-        }
-        #chatImage {
-        max-width: 600px; 
-        margin: 0 auto; 
-        border-radius: 10px; 
-        
-    }
+        /* Add or update your existing styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chatbox, button {
+    width: 600px; /* Make both chatbox and button 600px wide */
+    margin: 20px auto; /* Centering */
+}
+
+#chatbox {
+    height: 400px; /* Adjusted to your preference */
+    border: 2px solid #9A031E;
+    padding: 10px;
+    background-color: #5F0F40;
+    overflow-y: auto;
+}
+
+button {
+    background-color: #9A031E; 
+    color: white; 
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+#chatImage {
+    max-width: 600px; 
+    margin: 20px auto; 
+    border-radius: 10px;
+    display: block; /* Ensures the image is also centered */
+}
+
     </style>
 </head>
 <body>
