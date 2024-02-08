@@ -48,7 +48,18 @@ button {
     border-radius: 10px;
     display: block; /* Ensures the image is also centered */
 }
+@media (max-width: 768px) {
+    #chatbox, button, #chatImage {
+        width: 90%;
+        margin: 10px auto;
+    }
 
+    button {
+        padding: 10px 20px; /* Slightly reduce padding */
+    }
+
+    /* Adjust other elements as needed for better mobile experience */
+}
     </style>
 </head>
 <body>
